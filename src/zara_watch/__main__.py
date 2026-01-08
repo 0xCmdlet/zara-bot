@@ -9,6 +9,10 @@ from .curl_client import ensure_curl_exists
 from .emailer import load_email_settings, send_match_email
 from .zara import build_urls, check, extract_sku_states, seed
 
+from pathlib import Path
+from .csv_log import AvailabilityEvent, append_event_csv, now_iso
+
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(prog="zara_watch")
@@ -24,6 +28,8 @@ def main() -> int:
     settings = load_settings()
     cfg_path = resolve_config_path(args.config)
     cfg = load_config(cfg_path)
+
+    csv_path = Path("availability_events.csv")
 
     product_url, avail_url = build_urls(cfg)
     seed(product_url, settings)
@@ -59,6 +65,20 @@ def main() -> int:
             if became_available:
                 detail = f"sku={sku} availability={new}"
                 print(f"[{now_date_like_shell()}] MATCH {detail} {resp}", flush=True)
+                try:
+                    append_event_csv(
+                        csv_path,
+                        AvailabilityEvent(
+                            timestamp_iso=now_iso(),
+                            product_id=cfg.product_id,
+                            store_id=cfg.store_id,
+                            sku=sku,
+                            availability=new,  # "in_stock" / "low_on_stock"
+                            product_url=product_url,
+                        ),
+                    )
+                except Exception as e:
+                    print(f"[{now_date_like_shell()}] csv log failed: {e}", file=sys.stderr)
 
                 if email_settings:
                     try:
