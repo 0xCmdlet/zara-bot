@@ -78,7 +78,7 @@ def main() -> int:
             last_state[sku] = new
 
         # Optional: if you want to keep logging every poll, uncomment:
-        # print(f"[{now_date_like_shell()}] {resp}", flush=True)
+        print(f"[{now_date_like_shell()}] {resp}", flush=True)
 
         time.sleep(settings.sleep_seconds)
 
