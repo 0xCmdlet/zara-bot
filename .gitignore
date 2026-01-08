@@ -1,0 +1,4 @@
+.venv
+src/zara_watch.egg-info
+.env
+jar.txt
