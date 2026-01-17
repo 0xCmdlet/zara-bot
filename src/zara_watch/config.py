@@ -70,6 +70,7 @@ class Config:
     watch_skus: set[int]
     valid_states: set[str]
     product_url: str | None = None
+    product_name: str | None = None
 
 
 def load_config(path: Path = DEFAULT_CONFIG_PATH) -> Config:
@@ -86,6 +87,7 @@ def load_config(path: Path = DEFAULT_CONFIG_PATH) -> Config:
             watch_skus={int(x) for x in raw.get("watch_skus", [])},
             valid_states={str(x) for x in raw.get("valid_states", [])},
             product_url=raw.get("product_url"),
+            product_name=raw.get("product_name"),
         )
     except Exception as e:
         print(f"[{now_date_like_shell()}] invalid config schema ({path}): {e}", file=sys.stderr)

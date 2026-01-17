@@ -64,7 +64,8 @@ def main() -> int:
 
             if became_available:
                 detail = f"sku={sku} availability={new}"
-                print(f"[{now_date_like_shell()}] MATCH {detail} {resp}", flush=True)
+                display_name = cfg.product_name or f"Product {cfg.product_id}"
+                print(f"[{now_date_like_shell()}] MATCH {display_name}: {detail} {resp}", flush=True)
                 try:
                     append_event_csv(
                         csv_path,
@@ -89,6 +90,7 @@ def main() -> int:
                             store_id=cfg.store_id,
                             detail=detail,
                             raw_payload=resp,
+                            product_name=cfg.product_name,
                         )
                         print(f"[{now_date_like_shell()}] email sent: {detail}", file=sys.stderr)
                     except Exception as e:

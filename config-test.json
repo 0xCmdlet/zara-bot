@@ -1,0 +1,8 @@
+{
+  "product_id": 498939807,
+  "product_name": "test produkt",
+  "product_url": "https://www.zara.com/de/de/kurzer-blazer-mit-ziernaht-zw-collection-p02130797.html?v1=498939807",
+  "store_id": 10705,
+  "watch_skus": [498939537],
+  "valid_states": ["in_stock", "low_on_stock"]
+}

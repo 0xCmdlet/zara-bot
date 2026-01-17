@@ -53,11 +53,14 @@ def send_match_email(
     store_id: int,
     detail: str,
     raw_payload: str,
+    product_name: str | None = None,
 ) -> None:
-    subject = f"Zara Alert: AVAILABLE ({detail})"
+    display_name = product_name or f"Product {product_id}"
+    subject = f"Zara Alert: {display_name} is AVAILABLE!"
 
     body = (
-        "Your watched Zara item is now AVAILABLE!\n\n"
+        f"Your watched Zara item is now AVAILABLE!\n\n"
+        f"Product: {display_name}\n"
         f"Detail: {detail}\n"
         f"Product ID: {product_id}\n"
         f"Store ID: {store_id}\n"
